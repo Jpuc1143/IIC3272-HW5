@@ -3,6 +3,7 @@ import Intro from "./components/Intro/";
 import Setup from "./components/Setup";
 import Demo from "./components/Demo";
 import Footer from "./components/Footer";
+import Game from "./roulette/game";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Footer />
         </div>
       </div>
+      <Game />
     </EthProvider>
   );
 }
