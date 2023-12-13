@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Board } from "./board.jsx";
 import useEth from "../contexts/EthContext/useEth.js";
 import BidTypes from "../BidTypes.json";
@@ -48,13 +48,14 @@ const Game = () => {
     state: { contract, accounts },
   } = useEth();
   const [bets, setBets] = useState({});
+  const [subscribed, setSubscribed] = useState(false);
 
   // define the function to handle the bet
   const handleBet = (betType) => {
     if (Object.hasOwn(bets, betType)) {
       delete bets[betType];
     } else {
-      // Show modal asking for bet amount
+      // TODO: Show modal asking for bet amount
       const amount = 0.001;
       setBets((bets) => {
         bets[betType] = amount;
@@ -63,9 +64,24 @@ const Game = () => {
     }
   };
 
+  const submitBets = () => {
+    console.log(contract);
+    contract.methods.bet([]).send({ from: accounts[0] });
+  };
+
+  useEffect(() => {
+    if (!subscribed && contract !== null) {
+      setSubscribed(true);
+      contract.events.Result().on("data", (event) => {
+        console.log(event);
+      });
+    }
+  }, [contract]);
+
   return (
     <div className="game">
       <Board board={board} handleBet={handleBet} />
+      <button onClick={submitBets}>Confirmar apuesta y enviar</button>
     </div>
   );
 };
