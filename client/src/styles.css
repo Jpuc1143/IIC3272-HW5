@@ -151,3 +151,17 @@ hr {
   display: inline-block;
   margin: 2rem 1rem 0 0;
 }
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ruleta-container {
+  margin: auto;
+}
