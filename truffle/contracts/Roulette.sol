@@ -14,7 +14,15 @@ struct BetInput{
 		uint32 amount;
 	}
 
+
 contract Roulette {
+event Result(
+	address indexed _player,
+	uint _gameId,
+	uint _result,
+	uint _payout
+);
+
   struct Bet{
     uint8 betType;
     uint32 amount;
@@ -64,6 +72,8 @@ contract Roulette {
       payable(msg.sender).transfer(payout);
     }
 
+    emit Result(msg.sender, gameCount, result, payout);
+    gameCount++;
     return result;
   }
 
