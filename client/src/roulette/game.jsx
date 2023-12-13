@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Board } from "./board.jsx";
+import useEth from "../contexts/EthContext/useEth.js";
+import BidTypes from "../BidTypes.json";
 
 const Game = () => {
   // define the cells of the board of a roulette game
@@ -42,11 +44,23 @@ const Game = () => {
     { id: 36, color: "red" },
   ];
 
-  const [bet, setBet] = useState(0);
+  const {
+    state: { contract, accounts },
+  } = useEth();
+  const [bets, setBets] = useState({});
+
   // define the function to handle the bet
-  const handleBet = (num) => {
-    setBet(num);
-    console.log("num: ", num);
+  const handleBet = (betType) => {
+    if (Object.hasOwn(bets, betType)) {
+      delete bets[betType];
+    } else {
+      // Show modal asking for bet amount
+      const amount = 0.001;
+      setBets((bets) => {
+        bets[betType] = amount;
+        return bets;
+      });
+    }
   };
 
   return (
