@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Board } from "./board.jsx";
 import Bets from "./bets.jsx";
 import Ruleta from "./roulette.jsx";
@@ -58,6 +58,7 @@ const Game = () => {
     state: { contract, accounts },
   } = useEth();
   const [subscribed, setSubscribed] = useState(false);
+	const donateInputRef = useRef()
 
   // define the function to handle the bet
   const handleBet = (betType) => {
@@ -84,9 +85,13 @@ const Game = () => {
     });
     await contract.methods
       .bet(structuredBets)
-      .send({ from: accounts[0], value: 10 });
+      .send({ from: accounts[0], value: totalBet });
     setBets({});
   };
+
+	const donate = async () => {
+		await contract.methods.deposit().send({from: accounts[0], value: parseInt(donateInputRef.current.value)})
+	}
 
   useEffect(() => {
     if (!subscribed && contract !== null) {
@@ -109,6 +114,8 @@ const Game = () => {
   return (
     <div className="game">
       <h1>Roulette Game</h1>
+	  <input ref={donateInputRef} type="text" />
+	  <button onClick={donate}>Donate</button>
       <Bets bets={bets} />
       <Board board={board} handleBet={handleBet} />
       <Ruleta rotation={rotation} />

@@ -49,7 +49,7 @@ event Result(
     return address(this).balance;
   }
 
-  function deposit() public payable onlyOwner {}
+  function deposit() public payable {}
 
   function withdraw(uint amount) public onlyOwner {
     require(amount >= address(this).balance );
@@ -65,7 +65,7 @@ event Result(
 
       totalBet += _bets[i].amount;
     }
-    //require(totalBet == msg.value);
+    require(totalBet == msg.value);
     //require(maxPossiblePayout <= address(this).balance);
 
     uint result = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, gameCount))) % 38;
@@ -79,7 +79,7 @@ event Result(
     }
 
     if (payout > 0) {
-      //payable(msg.sender).transfer(payout);
+      payable(msg.sender).transfer(payout);
     }
 
     emit Result(msg.sender, gameCount, result, payout);
