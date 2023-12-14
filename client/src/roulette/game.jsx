@@ -47,6 +47,7 @@ const Game = () => {
   ];
 
   const [bets, setBets] = useState({});
+  const [spinning, setSpinning] = useState(false);
   // define the function to handle the bet
   // const handleBet = (num) => {
   //   // create an alert and ask for an amount to bet
@@ -83,6 +84,7 @@ const Game = () => {
       totalBet += amount;
       return { betType: parseInt(betType), amount: amount };
     });
+    setSpinning(true);
     await contract.methods
       .bet(structuredBets)
       .send({ from: accounts[0], value: totalBet });
@@ -90,12 +92,10 @@ const Game = () => {
   };
 
   const donate = async () => {
-    await contract.methods
-      .deposit()
-      .send({
-        from: accounts[0],
-        value: parseInt(donateInputRef.current.value),
-      });
+    await contract.methods.deposit().send({
+      from: accounts[0],
+      value: parseInt(donateInputRef.current.value),
+    });
   };
 
   useEffect(() => {
@@ -103,6 +103,7 @@ const Game = () => {
       setSubscribed(true);
       contract.events.Result().on("data", (event) => {
         setRotation((prevRotation) => prevRotation + 720);
+        setSpinning(false);
         const data = event.returnValues;
         console.log(data);
         if (data._payout > 0) {
@@ -122,9 +123,9 @@ const Game = () => {
       <input ref={donateInputRef} type="text" />
       <button onClick={donate}>Donate</button>
       <Bets bets={bets} />
-      <Ruleta rotation={rotation} />
-      <Board board={board} handleBet={handleBet} />
       <button onClick={submitBets}>Confirmar apuesta y enviar</button>
+      <Ruleta spinning={spinning} />
+      <Board board={board} handleBet={handleBet} />
     </div>
   );
 };

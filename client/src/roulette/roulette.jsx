@@ -1,28 +1,33 @@
 import { useState, useEffect } from "react";
-import { useSpring, animated } from "react-spring";
+import { useSpring, useSpringRef, animated } from "react-spring";
 import rouletteImage from "../../public/images/roulette-background.jpg";
 
-const Ruleta = ({ spinning = true, rotation }) => {
+const Ruleta = ({ spinning }) => {
   //const [rotation, setRotation] = useState(0);
-  const [springProps, api] = useSpring(() => ({
-    to: { transform: `rotate(360deg)` },
+  const api = useSpringRef();
+  const springProps = useSpring({
+    ref: api,
     from: { transform: `rotate(0deg)` },
-    config: { loop: true },
-  }));
+  });
   console.log(api);
   useEffect(() => {
+    console.log(spinning);
     if (spinning) {
-      api.start();
+      console.log("Start spin");
+      api.start({
+        from: { transform: "rotate(0deg)" },
+        to: { transform: `rotate(360deg)` },
+        loop: true,
+        config: { friction: 0 },
+      });
+    } else {
+      api.stop();
     }
   }, [spinning]);
 
   return (
     <div>
-      <animated.img
-        style={false ? { transform: `rotate(${rotation}deg)` } : springProps}
-        src={rouletteImage}
-        alt="Rotating"
-      />
+      <animated.img style={springProps} src={rouletteImage} alt="Rotating" />
     </div>
   );
 };
