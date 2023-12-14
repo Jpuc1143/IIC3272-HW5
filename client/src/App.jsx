@@ -4,7 +4,7 @@ import Game from "./roulette/game";
 function App() {
   return (
     <EthProvider>
-            <div className="game-container">
+      <div className="game-container">
         <Game />
       </div>
     </EthProvider>
