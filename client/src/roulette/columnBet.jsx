@@ -1,4 +1,5 @@
 import React from "react";
+import BetTypes from "../BetTypes.json"
 
 const ColumnBet = ({ handleBet }) => {
   return (
@@ -23,7 +24,7 @@ const ColumnBet = ({ handleBet }) => {
           lineHeight: "50px",
           cursor: "pointer",
         }}
-        onClick={() => handleBet("c1")}
+        onClick={() => handleBet(BetTypes.c1)}
       >
         C1
       </div>
@@ -38,7 +39,7 @@ const ColumnBet = ({ handleBet }) => {
           lineHeight: "50px",
           cursor: "pointer",
         }}
-        onClick={() => handleBet("c2")}
+        onClick={() => handleBet(BetTypes.c2)}
       >
         C2
       </div>
@@ -53,7 +54,7 @@ const ColumnBet = ({ handleBet }) => {
           lineHeight: "50px",
           cursor: "pointer",
         }}
-        onClick={() => handleBet("c3")}
+        onClick={() => handleBet(BetTypes.c3)}
       >
         C3
       </div>

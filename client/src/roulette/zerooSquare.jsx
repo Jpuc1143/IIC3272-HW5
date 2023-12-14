@@ -37,7 +37,7 @@ const ZeroSquare = (props) => {
           lineHeight: "50px",
           cursor: "pointer",
         }}
-        onClick={() => props.handleBet(0)}
+        onClick={() => props.handleBet(37)}
       >
         00
       </div>

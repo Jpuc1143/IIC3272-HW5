@@ -79,7 +79,7 @@ const Game = () => {
 	  let totalBet = 0;
 	  const structuredBets = Object.entries(bets).map((betType, amount)=> {
 		  totalBet += amount
-		  return {betType: BetTypes.odd, amount: 1}
+		  return {betType, amount}
 	  })
     await contract.methods.bet(structuredBets).send({ from: accounts[0], value: totalBet});
 	  setBets({})
@@ -92,7 +92,7 @@ const Game = () => {
         setRotation((prevRotation) => prevRotation + 720);
 	      const data = event.returnValues;
         console.log(data);
-	      if (data.payout > 0) {
+	      if (data._payout > 0) {
 		      alert(`The number was ${data._result}. You won ${data._payout}!`)
 	      } else {
 		      alert(`The number was ${data._result}. You won nothing...`)

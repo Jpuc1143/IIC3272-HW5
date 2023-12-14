@@ -1,3 +1,5 @@
+import BetTypes from "../BetTypes.json"
+
 const CustomBets = ({ handleBet }) => {
   return (
     <div
@@ -21,7 +23,7 @@ const CustomBets = ({ handleBet }) => {
           cursor: "pointer",
           height: "16%",
         }}
-        onClick={() => handleBet("1-18")}
+        onClick={() => handleBet(BetTypes.low)}
       >
         1 to 18
       </div>
@@ -34,7 +36,7 @@ const CustomBets = ({ handleBet }) => {
           cursor: "pointer",
           height: "16%",
         }}
-        onClick={() => handleBet("even")}
+        onClick={() => handleBet(BetTypes.even)}
       >
         Even
       </div>
@@ -47,7 +49,7 @@ const CustomBets = ({ handleBet }) => {
           cursor: "pointer",
           height: "16%",
         }}
-        onClick={() => handleBet("red")}
+        onClick={() => handleBet(BetTypes.red)}
       >
         Red
       </div>
@@ -60,7 +62,7 @@ const CustomBets = ({ handleBet }) => {
           cursor: "pointer",
           height: "16%",
         }}
-        onClick={() => handleBet("black")}
+        onClick={() => handleBet(BetTypes.black)}
       >
         Black
       </div>
@@ -73,7 +75,7 @@ const CustomBets = ({ handleBet }) => {
           cursor: "pointer",
           height: "16%",
         }}
-        onClick={() => handleBet("odd")}
+        onClick={() => handleBet(BetTypes.odd)}
       >
         Odd
       </div>
@@ -86,7 +88,7 @@ const CustomBets = ({ handleBet }) => {
           cursor: "pointer",
           height: "16%",
         }}
-        onClick={() => handleBet("19-36")}
+        onClick={() => handleBet(BetTypes.high)}
       >
         19 to 36
       </div>

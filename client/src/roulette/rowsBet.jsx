@@ -1,3 +1,5 @@
+import BetTypes from "../BetTypes.json"
+
 const RowsBet = ({ handleBet }) => {
   return (
     <div
@@ -21,7 +23,7 @@ const RowsBet = ({ handleBet }) => {
           cursor: "pointer",
           height: "30%",
         }}
-        onClick={() => handleBet("r1")}
+        onClick={() => handleBet(BetTypes.r1)}
       >
         R1
       </div>
@@ -35,7 +37,7 @@ const RowsBet = ({ handleBet }) => {
           cursor: "pointer",
           height: "30%",
         }}
-        onClick={() => handleBet("r2")}
+        onClick={() => handleBet(BetTypes.r2)}
       >
         R2
       </div>
@@ -49,7 +51,7 @@ const RowsBet = ({ handleBet }) => {
           cursor: "pointer",
           height: "30%",
         }}
-        onClick={() => handleBet("r3")}
+        onClick={() => handleBet(BetTypes.r3)}
       >
         R3
       </div>
