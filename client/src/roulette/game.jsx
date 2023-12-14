@@ -81,8 +81,6 @@ const Game = () => {
 		  totalBet += amount
 		  return {betType: BetTypes.odd, amount: 1}
 	  })
-    //await contract.methods.deposit().send({ from: accounts[0], value: 1 * 10**18});
-	  //console.log(await contract.methods.getBalance().call())
     await contract.methods.bet(structuredBets).send({ from: accounts[0], value: totalBet});
 	  setBets({})
   };
@@ -92,7 +90,13 @@ const Game = () => {
       setSubscribed(true);
       contract.events.Result().on("data", (event) => {
         setRotation((prevRotation) => prevRotation + 720);
-        console.log(event);
+	      const data = event.returnValues;
+        console.log(data);
+	      if (data.payout > 0) {
+		      alert(`The number was ${data._result}. You won ${data._payout}!`)
+	      } else {
+		      alert(`The number was ${data._result}. You won nothing...`)
+	      }
       });
     }
   }, [contract]);
