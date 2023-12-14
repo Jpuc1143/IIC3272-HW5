@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Board } from "./board.jsx";
+import Bets from "./bets.jsx";
+import Ruleta from "./roulette.jsx";
 
 const Game = () => {
   // define the cells of the board of a roulette game
@@ -42,16 +44,25 @@ const Game = () => {
     { id: 36, color: "red" },
   ];
 
-  const [bet, setBet] = useState(0);
+  const [bet, setBet] = useState([{}]);
+  const [winnerNumber, setWinnerNumber] = useState(0);
   // define the function to handle the bet
   const handleBet = (num) => {
-    setBet(num);
-    console.log("num: ", num);
+    // create an alert and ask for an amount to bet
+    const amount = prompt("How much do you want to bet?");
+    setBet([...bet, { number: num, amount: amount }]);
+  };
+
+  const handleReset = () => {
+    setBet([{}]);
   };
 
   return (
     <div className="game">
+      <h1>Roulette Game</h1>
+      <Bets bets={bet} />
       <Board board={board} handleBet={handleBet} />
+      <Ruleta setWinnerNumber={setWinnerNumber} handleReset={handleReset} />
     </div>
   );
 };

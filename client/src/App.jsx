@@ -5,8 +5,6 @@ import Demo from "./components/Demo";
 import Footer from "./components/Footer";
 import Game from "./roulette/game";
 
-import Ruleta from "./roulette/roulette"; 
-
 function App() {
   return (
     <EthProvider>
@@ -23,9 +21,6 @@ function App() {
       </div>
       <div className="game-container">
         <Game />
-        <div className="ruleta-container">
-          <Ruleta />
-        </div>
       </div>
     </EthProvider>
   );
