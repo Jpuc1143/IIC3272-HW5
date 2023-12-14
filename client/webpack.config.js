@@ -1,7 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const EslintWebpackPlugin = require("eslint-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const extensions = [".js", ".jsx"];
 
