@@ -62,27 +62,30 @@ const Game = () => {
   // define the function to handle the bet
   const handleBet = (betType) => {
     if (Object.hasOwn(bets, betType)) {
-      delete bets[betType];
+      setBets((bets) => {
+        delete bets[betType];
+        return { ...bets };
+      });
     } else {
-      // TODO: Show modal asking for bet amount
-      // const amount = 0.001;
       const amount = prompt("How much do you want to bet?");
       const amountAsInt = parseInt(amount);
-	    if(!Number.isNaN(amountAsInt)) {
-		    setBets((bets) => ({ ...bets, [betType]: amountAsInt }));
-	    }
+      if (!Number.isNaN(amountAsInt)) {
+        setBets((bets) => ({ ...bets, [betType]: amountAsInt }));
+      }
     }
   };
 
-  const submitBets = async() => {
+  const submitBets = async () => {
     console.log(contract);
-	  let totalBet = 0;
-	  const structuredBets = Object.entries(bets).map((betType, amount)=> {
-		  totalBet += amount
-		  return {betType, amount}
-	  })
-    await contract.methods.bet(structuredBets).send({ from: accounts[0], value: totalBet});
-	  setBets({})
+    let totalBet = 0;
+    const structuredBets = Object.entries(bets).map(([betType, amount]) => {
+      totalBet += amount;
+      return { betType: parseInt(betType), amount: amount };
+    });
+    await contract.methods
+      .bet(structuredBets)
+      .send({ from: accounts[0], value: 10 });
+    setBets({});
   };
 
   useEffect(() => {
@@ -90,13 +93,13 @@ const Game = () => {
       setSubscribed(true);
       contract.events.Result().on("data", (event) => {
         setRotation((prevRotation) => prevRotation + 720);
-	      const data = event.returnValues;
+        const data = event.returnValues;
         console.log(data);
-	      if (data._payout > 0) {
-		      alert(`The number was ${data._result}. You won ${data._payout}!`)
-	      } else {
-		      alert(`The number was ${data._result}. You won nothing...`)
-	      }
+        if (data._payout > 0) {
+          alert(`The number was ${data._result}. You won ${data._payout}!`);
+        } else {
+          alert(`The number was ${data._result}. You won nothing...`);
+        }
       });
     }
   }, [contract]);

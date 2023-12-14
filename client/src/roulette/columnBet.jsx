@@ -1,5 +1,5 @@
 import React from "react";
-import BetTypes from "../BetTypes.json"
+import BetTypes from "../BetTypes.json";
 
 const ColumnBet = ({ handleBet }) => {
   return (

@@ -1,4 +1,4 @@
-import BetTypes from "../BetTypes.json"
+import BetTypes from "../BetTypes.json";
 
 const RowsBet = ({ handleBet }) => {
   return (

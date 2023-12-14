@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useSpring, animated } from "react-spring";
 
 const Ruleta = ({ rotation }) => {
-
-
   const springProps = useSpring({
     to: { transform: `rotate(${rotation}deg)` },
     from: { transform: "rotate(0deg)" },
