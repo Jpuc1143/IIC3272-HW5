@@ -3,7 +3,7 @@ import { Board } from "./board.jsx";
 import Bets from "./bets.jsx";
 import Ruleta from "./roulette.jsx";
 import useEth from "../contexts/EthContext/useEth.js";
-import BidTypes from "../BidTypes.json";
+import BetTypes from "../BetTypes.json";
 
 const Game = () => {
   // define the cells of the board of a roulette game
@@ -68,20 +68,30 @@ const Game = () => {
       // const amount = 0.001;
       const amount = prompt("How much do you want to bet?");
       const amountAsInt = parseInt(amount);
-      setBets((bets) => ({ ...bets, [betType]: amountAsInt }));
+	    if(!Number.isNaN(amountAsInt)) {
+		    setBets((bets) => ({ ...bets, [betType]: amountAsInt }));
+	    }
     }
   };
 
-  const submitBets = () => {
+  const submitBets = async() => {
     console.log(contract);
-    contract.methods.bet([]).send({ from: accounts[0] });
+	  let totalBet = 0;
+	  const structuredBets = Object.entries(bets).map((betType, amount)=> {
+		  totalBet += amount
+		  return {betType: BetTypes.odd, amount: 1}
+	  })
+    //await contract.methods.deposit().send({ from: accounts[0], value: 1 * 10**18});
+	  //console.log(await contract.methods.getBalance().call())
+    await contract.methods.bet(structuredBets).send({ from: accounts[0], value: totalBet});
+	  setBets({})
   };
 
   useEffect(() => {
     if (!subscribed && contract !== null) {
       setSubscribed(true);
       contract.events.Result().on("data", (event) => {
-        setRotation((prevRotation) => prevRotation + 720); // Rotate 45 degrees on each click
+        setRotation((prevRotation) => prevRotation + 720);
         console.log(event);
       });
     }
