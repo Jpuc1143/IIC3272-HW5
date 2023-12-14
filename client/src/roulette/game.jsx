@@ -46,22 +46,17 @@ const Game = () => {
     { id: 36, color: "red" },
   ];
 
-  const [bet, setBet] = useState([{}]);
-  const [winnerNumber, setWinnerNumber] = useState(0);
+  const [bets, setBets] = useState({});
   // define the function to handle the bet
   // const handleBet = (num) => {
   //   // create an alert and ask for an amount to bet
   //   const amount = prompt("How much do you want to bet?");
-  //   setBet([...bet, { number: num, amount: amount }]);
+  //   setBet([...bet, { betType: num, amount: amount }]);
   // };
 
-  const handleReset = () => {
-    setBet([{}]);
-  }
   const {
     state: { contract, accounts },
   } = useEth();
-  const [bets, setBets] = useState({});
   const [subscribed, setSubscribed] = useState(false);
 
   // define the function to handle the bet
@@ -70,11 +65,10 @@ const Game = () => {
       delete bets[betType];
     } else {
       // TODO: Show modal asking for bet amount
-      const amount = 0.001;
-      setBets((bets) => {
-        bets[betType] = amount;
-        return bets;
-      });
+      // const amount = 0.001;
+      const amount = prompt("How much do you want to bet?");
+      const amountAsInt = parseInt(amount);
+      setBets((bets) => ({ ...bets, [betType]: amountAsInt }));
     }
   };
 
@@ -87,17 +81,20 @@ const Game = () => {
     if (!subscribed && contract !== null) {
       setSubscribed(true);
       contract.events.Result().on("data", (event) => {
+        setRotation((prevRotation) => prevRotation + 720); // Rotate 45 degrees on each click
         console.log(event);
       });
     }
   }, [contract]);
 
+  const [rotation, setRotation] = useState(0);
+
   return (
     <div className="game">
       <h1>Roulette Game</h1>
-      <Bets bets={bet} />
+      <Bets bets={bets} />
       <Board board={board} handleBet={handleBet} />
-      <Ruleta setWinnerNumber={setWinnerNumber} handleReset={handleReset} />
+      <Ruleta rotation={rotation} />
       <button onClick={submitBets}>Confirmar apuesta y enviar</button>
     </div>
   );
